@@ -36,7 +36,7 @@ public class Search {
 	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic) throws IOException, ParseException {
 		//Constants
 		final int errorDelay = 6; //5 sec error delay
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d'T'H:M:S");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss",Locale.FRENCH);
 		final Date date_debut = dateFormat.parse("2015-01-01T00:00:00");
 		final Date date_fin = dateFormat.parse("2015-01-02T00:00:00");
 		//initializing
@@ -116,16 +116,10 @@ public class Search {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d'T'H:M:S");
-		final Date date_debut = dateFormat.parse("2015-01-01T00:00:00");
-		final Date date_fin = dateFormat.parse("2015-01-02T00:00:00");
-		if (date_fin.after(date_debut)){
-			System.out.println("hhh");
-		}
-//		
-//		ArrayList<LeMondeArticle> articles = getUrlFromTopic("international");
-//		articles.forEach(System.out::println);
-//		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
-//		csvManager.writeToCSV(articles,"1janv2015.csv");
+
+		ArrayList<LeMondeArticle> articles = getUrlFromTopic("international");
+		articles.forEach(System.out::println);
+		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
+		csvManager.writeToCSV(articles,"1janv2015.csv");
 	}
 }
