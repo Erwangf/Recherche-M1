@@ -89,7 +89,7 @@ public class TwitterSearch {
      * @throws IOException in case of IO problem when sending the request
      * @throws JSONException if the JSON received is malformed
      */
-    public static void getTweetsFromTwitter(int nMax, String q, boolean getRetweets,String idArticle) throws IOException, JSONException {
+    public static ArrayList<Tweet> getTweetsFromTwitter(int nMax, String q, boolean getRetweets) throws IOException, JSONException {
         int n = 0;
         int lastLog = 0;
         String url;
@@ -167,7 +167,7 @@ public class TwitterSearch {
             }
 
         } while (n < nMax);
-        WrapAll(myList,idArticle,idArticle);
+        return myList;
     }
     
     /**
@@ -179,7 +179,6 @@ public class TwitterSearch {
     */
     private static void WrapAll(ArrayList<Tweet> myList,String idArticle,String path) {
 		// TODO Auto-generated method stub
-
         ArrayList<MiTweet_Wrapper> mites = new ArrayList<>();
         for(Tweet t : myList){
         	mites.add(new MiTweet_Wrapper(t,idArticle));
@@ -188,8 +187,8 @@ public class TwitterSearch {
         csvManager.writeToCSV(mites,path+".csv");
 	}
 
-	public static void getTweetsFromTwitter(int nMax, String q,String topic) throws IOException, JSONException {
-        getTweetsFromTwitter(nMax, q, false,topic);
+	public static void getTweetsFromTwitter(int nMax, String q) throws IOException, JSONException {
+        getTweetsFromTwitter(nMax, q, false);
 
     }
 
