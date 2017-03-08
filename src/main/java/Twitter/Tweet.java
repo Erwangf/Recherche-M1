@@ -14,7 +14,7 @@ public class Tweet implements CSVConvertible {
     private int nbResponses;
     private int nbRetweets;
     private int nbLikes;
-    private String originalTweetd;
+    private Tweet original_Tweet;
     private String inReplyToTweetId;
     private Float note;
 
@@ -35,6 +35,7 @@ public class Tweet implements CSVConvertible {
         this.nbResponses = 0;
         this.nbRetweets = status.getRetweetCount();
         this.nbLikes = status.getFavoriteCount();
+        original_Tweet = new Tweet();
     }
 
     public Tweet(String user, String tweetId, String username, Timestamp timeStamp, String content, int nbResponses,
@@ -48,6 +49,7 @@ public class Tweet implements CSVConvertible {
         this.nbResponses = nbResponses;
         this.nbRetweets = nbRetweets;
         this.nbLikes = nbLikes;
+        original_Tweet = new Tweet();
 
     }
 
@@ -66,7 +68,7 @@ public class Tweet implements CSVConvertible {
                 ", nbResponses=" + nbResponses +
                 ", nbRetweets=" + nbRetweets +
                 ", nbLikes=" + nbLikes +
-                ", originalTweetd='" + originalTweetd + '\'' +
+                ", originalTweetd='" + original_Tweet.getUser() + '\'' +
                 ", inReplyToTweetId='" + inReplyToTweetId + '\'' +
                 ", note=" + note +
                 '}';
@@ -137,17 +139,19 @@ public class Tweet implements CSVConvertible {
     public Timestamp getTimeStamp() {
         return timeStamp;
     }
-
+    public String getTimeStamptoS() {
+        return timeStamp.toString();
+    }
     public void setTimeStamp(Timestamp timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    public String getOriginalTweetd() {
-        return originalTweetd;
+    public Tweet getOriginal_Tweet() {
+        return original_Tweet;
     }
 
-    public void setOriginalTweetd(String originalTweetd) {
-        this.originalTweetd = originalTweetd;
+    public void setOriginalTweet(Tweet originalTweetd) {
+        this.original_Tweet = originalTweetd;
     }
 
     public String getInReplyToTweetId() {

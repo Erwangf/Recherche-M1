@@ -58,15 +58,15 @@ public class TwitterSearch {
     }
 
 
-    private static ArrayList<Tweet> getRetweetById(String id) {
+    private static ArrayList<Tweet> getRetweetById(Tweet id) {
         ArrayList<Tweet> res = new ArrayList<Tweet>();
         try {
             Twitter twitter = new TwitterFactory().getInstance();
-            ArrayList<Status> statuses = (ArrayList<Status>) (twitter.getRetweets(Long.parseLong(id)));
+            ArrayList<Status> statuses = (ArrayList<Status>) (twitter.getRetweets(Long.parseLong(id.getTweetId())));
             for (Status status : statuses) {
                 System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
                 Tweet t = new Tweet((Status) status);
-                t.setOriginalTweetd(id);
+                t.setOriginalTweet(id);
                 res.add(t);
             }
             System.out.println("done.");
@@ -88,7 +88,6 @@ public class TwitterSearch {
      * @throws JSONException if the JSON received is malformed
      */
     public static ArrayList<Tweet> getTweetsFromTwitter(int nMax, String q, boolean getRetweets) throws IOException, JSONException {
-
         int n = 0;
         int lastLog = 0;
         String url;
@@ -146,7 +145,7 @@ public class TwitterSearch {
                 // and we add it to our list
                 myList.add(t);
                 if (getRetweets && t.getNbRetweets() > 0) {
-                    myList.addAll(getRetweetById(t.getTweetId()));
+                    myList.addAll(getRetweetById(t));
                     try {
                         Thread.sleep(5500); // twitter API limit : max 180 request in 15 minutes ==> min 5 delay between requests...
                     } catch (InterruptedException e1) {
