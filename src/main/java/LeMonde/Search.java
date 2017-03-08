@@ -83,9 +83,11 @@ public class Search {
                 titleElement.select("span").forEach(Element::remove); //we remove all the anoying span elements...
                 String title = titleElement.text();
 
-                // finally, we add this article to the result
-                result.add(new LeMondeArticle(title,date_article,link,topic));
+                String id = topic+"_"+articleCount; // example of ID : international_1233
 
+                // finally, we add this article to the result
+                result.add(new LeMondeArticle(id,title,date_article,link,topic));
+                articleCount++;
             }
 
         }
