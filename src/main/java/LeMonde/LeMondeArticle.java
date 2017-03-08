@@ -12,15 +12,15 @@ public class LeMondeArticle implements CSVConvertible {
     private Date date;
     private String title;
     private String link;
-    private String topic;
 
-    public LeMondeArticle(String id, String title, Date date, String link, String topic) {
+
+    public LeMondeArticle(String id, String title, Date date, String link) {
 
         this.id= id;
         this.title = title;
         this.date = date;
         this.link = link;
-        this.topic = topic;
+
     }
 
     @Override
@@ -29,18 +29,18 @@ public class LeMondeArticle implements CSVConvertible {
                 "\ndate=" + date +
                 "\ntitle='" + title + '\'' +
                 "\nlink='" + link + '\'' +
-                "\ntopic='" + topic + '\'' +
+                "\nid='" + id + '\'' +
                 '}';
     }
 
     @Override
     public String[] getCSVHeaders(){
-        return new String[]{"id","topic","title","date","link"};
+        return new String[]{"id","title","date","link"};
     }
 
     @Override
     public String[] getFields(){
-        return new String[]{id,topic,title,date.toString(),link};
+        return new String[]{id,title,date.toString(),link};
     }
 
     public String getId() {
@@ -49,14 +49,6 @@ public class LeMondeArticle implements CSVConvertible {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
     }
 
     public Date getDate() {
