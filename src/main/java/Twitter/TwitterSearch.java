@@ -1,8 +1,6 @@
 package Twitter;
 
 import IO.CSVManager;
-import LeMonde.LeMondeArticle;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -64,10 +62,11 @@ public class TwitterSearch {
         ArrayList<Tweet> res = new ArrayList<Tweet>();
         try {
             Twitter twitter = new TwitterFactory().getInstance();
+            twitter.getOAuth2Token();
             ArrayList<Status> statuses = (ArrayList<Status>) (twitter.getRetweets(Long.parseLong(id.getTweetId())));
             for (Status status : statuses) {
                 System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
-                Tweet t = new Tweet((Status) status);
+                Tweet t = new Tweet(status);
                 t.setOriginalTweet(id);
                 res.add(t);
             }
@@ -149,7 +148,7 @@ public class TwitterSearch {
                 if (getRetweets && t.getNbRetweets() > 0) {
                     myList.addAll(getRetweetById(t));
                     try {
-                        Thread.sleep(5500); // twitter API limit : max 180 request in 15 minutes ==> min 5 delay between requests...
+                        Thread.sleep(3000); // twitter API limit : max 180 request in 15 minutes ==> min 5 delay between requests...
                     } catch (InterruptedException e1) {
 
                         e1.printStackTrace();
@@ -169,14 +168,7 @@ public class TwitterSearch {
         } while (n < nMax);
         return myList;
     }
-    
-    /**
-    *
-    * @param ArrayList<Tweet>
-    * @param String idArticle
-    * @return void, write datas in a CSV
-    * @throws nothing
-    */
+
     private static void WrapAll(ArrayList<Tweet> myList,String idArticle,String path) {
 		// TODO Auto-generated method stub
         ArrayList<MiTweet_Wrapper> mites = new ArrayList<>();

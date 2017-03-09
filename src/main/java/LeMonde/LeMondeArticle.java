@@ -2,6 +2,8 @@ package LeMonde;
 
 import IO.CSVConvertible;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -13,6 +15,7 @@ public class LeMondeArticle implements CSVConvertible {
     private String title;
     private String link;
     private String topic;
+    final static SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d'T'H:M:S");
 
     public LeMondeArticle(String id, String title, Date date, String link, String topic) {
 
@@ -33,14 +36,37 @@ public class LeMondeArticle implements CSVConvertible {
                 '}';
     }
 
+
+
     @Override
     public String[] getCSVHeaders(){
-        return new String[]{"id","topic","title","date","link"};
+        return new String[]{"id","topic","date","title","link"};
     }
 
     @Override
+    public Object getObjectFromField(String[] fields) {
+        try {
+            return new LeMondeArticle(
+                    fields[0],
+                    fields[1],
+                    dateFormat.parse(fields[2]),
+                    fields[3],
+                    fields[4]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Override
     public String[] getFields(){
-        return new String[]{id,topic,title,date.toString(),link};
+        return new String[]{
+                id,
+                topic,
+                dateFormat.format(date),
+                title,
+                link};
     }
 
     public String getId() {
