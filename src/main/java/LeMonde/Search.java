@@ -27,20 +27,20 @@ public class Search {
     /**
      *
      * @param topic the topic ( ex : international )
-     * @param nbPages the maximum amount of search page  to fetch
+     * @param startPage
      * @return a list of articles URL ( String )
      * @throws IOException in case of network problem
      */
-    public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic, int nbPages) throws IOException {
+    public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic, int startPage, int endPage) throws IOException {
         //Constants
 
-        final int errorDelay = 6; //5 sec error delay
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d'T'H:M:S");
+        final int errorDelay = 6; //6 sec error delay
+        SimpleDateFormat dateFormat = LeMondeArticle.dateFormat;
         //initializing
         int articleCount = 0;
         ArrayList<LeMondeArticle> result = new ArrayList<>();
 
-        for(int pageIndex = 1; pageIndex<=nbPages;pageIndex++){
+        for(int pageIndex = startPage; pageIndex<= endPage; pageIndex++){
             String pageUrl = "http://www.lemonde.fr/"+topic+"/"+pageIndex+".html";
 
             //opening connexion
@@ -95,9 +95,10 @@ public class Search {
         return result;
     }
 
+
+
     public static void main(String[] args) throws IOException {
-        ArrayList<LeMondeArticle> articles = getUrlFromTopic("international",1);
-        articles.forEach(System.out::println);
+        ArrayList<LeMondeArticle> articles = getUrlFromTopic("international", 1, 1);
         CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
         csvManager.writeToCSV(articles,"articles_lemonde.csv");
     }
