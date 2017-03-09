@@ -2,8 +2,6 @@ package LeMonde;
 
 import IO.CSVConvertible;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -14,16 +12,15 @@ public class LeMondeArticle implements CSVConvertible {
     private Date date;
     private String title;
     private String link;
-    private String topic;
-    final static SimpleDateFormat dateFormat = new SimpleDateFormat("Y-m-d'T'H:M:S");
 
-    public LeMondeArticle(String id, String title, Date date, String link, String topic) {
+
+    public LeMondeArticle(String id, String title, Date date, String link) {
 
         this.id= id;
         this.title = title;
         this.date = date;
         this.link = link;
-        this.topic = topic;
+
     }
 
     @Override
@@ -32,41 +29,18 @@ public class LeMondeArticle implements CSVConvertible {
                 "\ndate=" + date +
                 "\ntitle='" + title + '\'' +
                 "\nlink='" + link + '\'' +
-                "\ntopic='" + topic + '\'' +
+                "\nid='" + id + '\'' +
                 '}';
     }
 
-
-
     @Override
     public String[] getCSVHeaders(){
-        return new String[]{"id","topic","date","title","link"};
+        return new String[]{"id","title","date","link"};
     }
-
-    @Override
-    public Object getObjectFromField(String[] fields) {
-        try {
-            return new LeMondeArticle(
-                    fields[0],
-                    fields[1],
-                    dateFormat.parse(fields[2]),
-                    fields[3],
-                    fields[4]);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     @Override
     public String[] getFields(){
-        return new String[]{
-                id,
-                topic,
-                dateFormat.format(date),
-                title,
-                link};
+        return new String[]{id,title,date.toString(),link};
     }
 
     public String getId() {
@@ -75,14 +49,6 @@ public class LeMondeArticle implements CSVConvertible {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
     }
 
     public Date getDate() {
