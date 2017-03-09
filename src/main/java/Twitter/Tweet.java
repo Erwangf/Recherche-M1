@@ -30,7 +30,7 @@ public class Tweet implements CSVConvertible {
         this.user = status.getUser().getScreenName();
         this.tweetId = Long.toString(status.getId());
         this.username = status.getUser().getName();
-        this.timeStamp = new Timestamp(status.getCreatedAt().getTime());
+        this.timeStamp = new Timestamp(status.getCreatedAt().getTime()/1000);
         this.content = status.getText().replace("\"", "");
         this.nbResponses = 0;
         this.nbRetweets = status.getRetweetCount();
@@ -183,6 +183,11 @@ public class Tweet implements CSVConvertible {
                 "nbResponses",
                 "nbRetweets",
                 "nbLikes"};
+    }
+
+    @Override
+    public Object getObjectFromField(String[] fields) {
+        return null;
     }
 
     @Override
