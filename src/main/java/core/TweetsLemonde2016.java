@@ -9,11 +9,12 @@ import Twitter.TwitterSearch;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class TweetsLemonde2016 {
-    public static void main(String[] args) throws IOException {
-        ArrayList<LeMondeArticle> articles = Search.getUrlFromTopic("international", 200, 200);
+    public static void main(String[] args) throws IOException, ParseException {
+        ArrayList<LeMondeArticle> articles = Search.getUrlFromTopic("international", 200);
 
         ArrayList<MiTweet_Wrapper> miTweet_wrappers = new ArrayList<>();
         articles.forEach(article -> {

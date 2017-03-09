@@ -139,7 +139,8 @@ public class Tweet implements CSVConvertible {
     public Timestamp getTimeStamp() {
         return timeStamp;
     }
-    public String getTimeStamptoS() {
+
+    public Long getTimeStamptoS() {
         return timeStamp.getTime();
     }
     public void setTimeStamp(Timestamp timeStamp) {

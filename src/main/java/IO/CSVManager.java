@@ -3,8 +3,10 @@ package IO;
 import LeMonde.LeMondeArticle;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Erwan on 07/03/2017.
@@ -127,6 +129,9 @@ public class CSVManager<T extends CSVConvertible> {
     }
 
     public static void main(String[] args) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("Y-M-d'T'hh:mm:ss", Locale.FRENCH);
+
+        System.out.println(dateFormat.format(new Date()));
         LeMondeArticle lma = new LeMondeArticle("AA", "TITRE", new Date(), "..", "topic");
         ArrayList<LeMondeArticle> list = new ArrayList<>();
         list.add(lma);

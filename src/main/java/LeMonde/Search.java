@@ -27,7 +27,7 @@ public class Search {
 
 	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,int page_int) throws IOException, ParseException {
 		//Constants
-		final int errorDelay = 6; //5 sec error delay
+		final int errorDelay = 6; //6 sec error delay
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss",Locale.FRENCH);
 		final Date date_debut = dateFormat.parse("2017-01-01T00:00:00");
 		final Date date_fin = dateFormat.parse("2017-01-03T00:00:00");
