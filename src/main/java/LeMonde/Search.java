@@ -25,18 +25,10 @@ import static Twitter.TwitterSearch.readAll;
  */
 public class Search {
 
-	/**
-	 *
-	 * @param topic the topic ( ex : international )
-	 * @param nbPages the maximum amount of search page  to fetch
-	 * @return a list of articles URL ( String )
-	 * @throws IOException in case of network problem
-	 * @throws ParseException 
-	 */
 	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,int page_int) throws IOException, ParseException {
 		//Constants
 		final int errorDelay = 6; //5 sec error delay
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss",Locale.FRENCH);
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss",Locale.FRENCH);
 		final Date date_debut = dateFormat.parse("2017-01-01T00:00:00");
 		final Date date_fin = dateFormat.parse("2017-01-03T00:00:00");
 		//initializing
@@ -97,7 +89,7 @@ public class Search {
 							String id = topic+"_"+articleCount; // example of ID : international_1233
 
 							// finally, we add this article to the result
-							result.add(new LeMondeArticle(id,title,date_article,link));
+							result.add(new LeMondeArticle(id,title,date_article,link,topic));
 							System.out.println(result.get(result.size()-1).toString());
 							articleCount++;
 						}
@@ -128,7 +120,7 @@ public class Search {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		topicsearch("international",110);
+		topicsearch("international",5);
 		topicsearch("sport",14);
 		//		ArrayList<LeMondeArticle> articles = getUrlFromTopic("international");
 		//		articles.forEach(System.out::println);
