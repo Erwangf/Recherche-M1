@@ -16,7 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static Twitter.TwitterSearch.readAll;
 
@@ -28,17 +27,14 @@ public class Search {
 	/**
 	 *
 	 * @param topic the topic ( ex : international )
-	 * @param nbPages the maximum amount of search page  to fetch
 	 * @return a list of articles URL ( String )
 	 * @throws IOException in case of network problem
 	 * @throws ParseException 
 	 */
-	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,String dd,String df) throws IOException, ParseException {
+	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,Date dd,Date df) throws IOException, ParseException {
 		//Constants
 		final int errorDelay = 6; //5 sec error delay
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-		final Date date_debut = dateFormat.parse(dd);
-		final Date date_fin = dateFormat.parse(df);
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
 		//initializing
 		int articleCount = 0;
 		ArrayList<LeMondeArticle> result = new ArrayList<>();
@@ -80,9 +76,10 @@ public class Search {
 						System.out.println("Error, incorrect date format :\n"+date_article_brut);
 						date_article = null;
 					}
+					assert date_article != null;
 					System.out.println(date_article.toString());
-					if (date_article.before(date_fin)){
-						if(date_article.after(date_debut)){
+					if (date_article.before(df)){
+						if(date_article.after(dd)){
 							//Starting processings for object instanciation
 							// link
 							String link = "http://www.lemonde.fr"+article.select("a").get(0).attr("href");
@@ -118,7 +115,7 @@ public class Search {
 		return result;
 	}
 
-	private static void topicsearch(String topic,String dd,String df) throws IOException, ParseException {
+	private static void topicsearch(String topic,Date dd,Date df) throws IOException, ParseException {
 		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic,dd,df);
 		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
 		csvManager.writeToCSV(articles,topic+".csv");
@@ -127,12 +124,10 @@ public class Search {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		// Format date "yyyy-M-dd'T'hh:mm:ss"
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-		String dd = "2017-03-01T00:00:00";
-		String df = "2017-03-02T00:00:00";
-
-		topicsearch("international",dd,df);
-		topicsearch("sport",dd,df);
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
+		Date date_debut = dateFormat.parse("2017-03-01T00:00:00");
+		Date date_fin = dateFormat.parse("2017-03-03T00:00:00");
+		topicsearch("international",date_debut,date_fin);
+		topicsearch("sport",date_debut,date_fin);
 	}
 }

@@ -49,7 +49,12 @@ public class MiTweet_Wrapper implements CSVConvertible {
         	   "Id_Article"};
     }
 
-	@Override
+    @Override
+    public Object getObjectFromField(String[] fields) {
+        return null;
+    }
+
+    @Override
     public String[] getFields(){
         return new String[]{
                Tweet.getUser(),

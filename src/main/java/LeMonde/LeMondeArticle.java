@@ -2,6 +2,8 @@ package LeMonde;
 
 import IO.CSVConvertible;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -14,8 +16,10 @@ public class LeMondeArticle implements CSVConvertible {
     private String link;
     private String topic;
 
+    final static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
 
-    public LeMondeArticle(String id, String title, Date date, String link,String topic) {
+
+    public LeMondeArticle(String id, String title, Date date, String link, String topic) {
 
         this.id= id;
         this.title = title;
@@ -25,22 +29,14 @@ public class LeMondeArticle implements CSVConvertible {
 
     }
 
-    public String getTopic() {
-		return topic;
-	}
-
-	public void setTopic(String topic) {
-		this.topic = topic;
-	}
-
-	@Override
+    @Override
     public String toString() {
         return "-----------------------------------------------" +
                 "\ndate=" + date +
                 "\ntitle='" + title + '\'' +
                 "\nlink='" + link + '\'' +
                 "\nid='" + id + '\'' +
-                "\nid='" + topic + '\'' +
+                "\ntopic='"+topic+'\''+
                 '}';
     }
 
@@ -50,8 +46,30 @@ public class LeMondeArticle implements CSVConvertible {
     }
 
     @Override
+    public Object getObjectFromField(String[] fields) {
+        try {
+            return new LeMondeArticle(
+                    fields[0],
+                    fields[1],
+                    dateFormat.parse(fields[2]),
+                    fields[3],
+                    fields[4]
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public String[] getFields(){
-        return new String[]{id,title,date.toString(),link,topic};
+        return new String[]{
+                id,
+                title,
+                dateFormat.format(date),
+                link,
+                topic
+        };
     }
 
     public String getId() {
@@ -85,5 +103,4 @@ public class LeMondeArticle implements CSVConvertible {
     public void setLink(String link) {
         this.link = link;
     }
-
 }
