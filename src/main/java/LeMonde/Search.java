@@ -33,12 +33,12 @@ public class Search {
 	 * @throws IOException in case of network problem
 	 * @throws ParseException 
 	 */
-	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic) throws IOException, ParseException {
+	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,String dd,String df) throws IOException, ParseException {
 		//Constants
 		final int errorDelay = 6; //5 sec error delay
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
-		final Date date_debut = dateFormat.parse("2017-03-01T00:00:00");
-		final Date date_fin = dateFormat.parse("2017-03-03T00:00:00");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+		final Date date_debut = dateFormat.parse(dd);
+		final Date date_fin = dateFormat.parse(df);
 		//initializing
 		int articleCount = 0;
 		ArrayList<LeMondeArticle> result = new ArrayList<>();
@@ -97,7 +97,7 @@ public class Search {
 							String id = topic+"_"+articleCount; // example of ID : international_1233
 
 							// finally, we add this article to the result
-							result.add(new LeMondeArticle(id,title,date_article,link));
+							result.add(new LeMondeArticle(id,title,date_article,link,topic));
 							System.out.println(result.get(result.size()-1).toString());
 							articleCount++;
 						}
@@ -118,8 +118,8 @@ public class Search {
 		return result;
 	}
 
-	private static void topicsearch(String topic) throws IOException, ParseException {
-		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic);
+	private static void topicsearch(String topic,String dd,String df) throws IOException, ParseException {
+		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic,dd,df);
 		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
 		csvManager.writeToCSV(articles,topic+".csv");
 		System.out.println(topic+" :fini");
@@ -127,7 +127,12 @@ public class Search {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		topicsearch("international");
-		topicsearch("sport");
+		// Format date "yyyy-M-dd'T'hh:mm:ss"
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+		String dd = "2017-03-01T00:00:00";
+		String df = "2017-03-02T00:00:00";
+
+		topicsearch("international",dd,df);
+		topicsearch("sport",dd,df);
 	}
 }
