@@ -16,7 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import static Twitter.TwitterSearch.readAll;
 
@@ -28,7 +27,6 @@ public class Search {
 	/**
 	 *
 	 * @param topic the topic ( ex : international )
-	 * @param nbPages the maximum amount of search page  to fetch
 	 * @return a list of articles URL ( String )
 	 * @throws IOException in case of network problem
 	 * @throws ParseException 
@@ -80,6 +78,7 @@ public class Search {
 						System.out.println("Error, incorrect date format :\n"+date_article_brut);
 						date_article = null;
 					}
+					assert date_article != null;
 					System.out.println(date_article.toString());
 					if (date_article.before(date_fin)){
 						if(date_article.after(date_debut)){
@@ -97,7 +96,7 @@ public class Search {
 							String id = topic+"_"+articleCount; // example of ID : international_1233
 
 							// finally, we add this article to the result
-							result.add(new LeMondeArticle(id,title,date_article,link));
+							result.add(new LeMondeArticle(id,title,date_article,link,topic));
 							System.out.println(result.get(result.size()-1).toString());
 							articleCount++;
 						}
