@@ -33,16 +33,16 @@ public class Search {
 	 * @throws IOException in case of network problem
 	 * @throws ParseException 
 	 */
-	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,int page_int) throws IOException, ParseException {
+	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic) throws IOException, ParseException {
 		//Constants
 		final int errorDelay = 6; //5 sec error delay
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss",Locale.FRENCH);
-		final Date date_debut = dateFormat.parse("2017-01-01T00:00:00");
-		final Date date_fin = dateFormat.parse("2017-01-03T00:00:00");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
+		final Date date_debut = dateFormat.parse("2017-03-01T00:00:00");
+		final Date date_fin = dateFormat.parse("2017-03-03T00:00:00");
 		//initializing
 		int articleCount = 0;
 		ArrayList<LeMondeArticle> result = new ArrayList<>();
-		int pageIndex= page_int;
+		int pageIndex= 1;
 		boolean ilenreste = true;
 		boolean a_parcourir = true;
 		while(ilenreste){
@@ -118,9 +118,8 @@ public class Search {
 		return result;
 	}
 
-	private static void topicsearch(String topic,int page_int) throws IOException, ParseException {
-		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic,page_int);
-		//		articles.forEach(System.out::println);
+	private static void topicsearch(String topic) throws IOException, ParseException {
+		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic);
 		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
 		csvManager.writeToCSV(articles,topic+".csv");
 		System.out.println(topic+" :fini");
@@ -128,12 +127,8 @@ public class Search {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		topicsearch("international",110);
-		topicsearch("sport",14);
-		//		ArrayList<LeMondeArticle> articles = getUrlFromTopic("international");
-		//		articles.forEach(System.out::println);
-		//		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
-		//		csvManager.writeToCSV(articles,"1janv2015.csv");
-		//		System.out.println("fini");
+		topicsearch("international");
+		topicsearch("sport");
+
 	}
 }
