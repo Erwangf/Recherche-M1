@@ -1,7 +1,25 @@
 #network{
     height: 500px;
+    border: 1px solid #a8a8a8;
+    background-color:#ffffff;
+
 }
 
-/*#mainContainer{*/
-    /*padding-top: 100px;*/
-/*}*/
+#network.lolz{
+    background-image: url("http://img.memecdn.com/explosion-shit_o_1687505.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+#mainContainer{
+    padding-top: 100px;
+}
+
+#leftContainer{
+    padding-top:50px;
+    text-align: center;
+}
+#load-button{
+    margin-top:50px;
+    text-align: center;
+}

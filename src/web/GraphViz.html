@@ -60,20 +60,30 @@
         <h1>Graph Vizualizer</h1>
         <p class="lead">With this document, you can vizualize some graphs...</p>
     </div>
-    <div>
-        <label class="custom-file">
+    <div class="row">
 
-            <input id="fileInput" type="file" class="custom-file-input" onchange="onFileChanged(this.files)" placeholder="File" aria-describedby="basic-addon1">
-            <span class="custom-file-control"></span>
-        </label>
-        <br>
-        <div class="form-group">
-            <label for="filterSelect">Example multiple select</label>
-            <select multiple class="form-control" id="filterSelect">
-            </select>
+        <div class="col-md-6" id="leftContainer">
+            <label class="custom-file">
+
+                <input id="fileInput" type="file" class="custom-file-input" onchange="onFileChanged(this.files)"
+                       placeholder="File" aria-describedby="basic-addon1">
+                <span class="custom-file-control"></span>
+            </label>
+            <br>
+            <button id="load-button" class="btn btn-primary" type="submit" onclick="loadButtonAction()">Load</button>
+            <br>
+            <div class="checkbox">
+                <label><input type="checkbox"  checked value="" onchange="lolzOnCHanged(this.checked)">lolz</label>
+            </div>
         </div>
-        <br>
-        <button class="btn btn-primary" type="submit" onclick="loadButtonAction()">Load</button>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="filterSelect">Example multiple select</label>
+                <select multiple size="20" class="form-control" id="filterSelect">
+                </select>
+            </div>
+        </div>
+
     </div>
 
 
