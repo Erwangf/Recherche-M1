@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -31,12 +32,10 @@ public class Search {
 	 * @throws IOException in case of network problem
 	 * @throws ParseException 
 	 */
-	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic) throws IOException, ParseException {
+	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,Date dd,Date df) throws IOException, ParseException {
 		//Constants
 		final int errorDelay = 6; //5 sec error delay
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
-		final Date date_debut = dateFormat.parse("2017-03-01T00:00:00");
-		final Date date_fin = dateFormat.parse("2017-03-03T00:00:00");
 		//initializing
 		int articleCount = 0;
 		ArrayList<LeMondeArticle> result = new ArrayList<>();
@@ -80,8 +79,8 @@ public class Search {
 					}
 					assert date_article != null;
 					System.out.println(date_article.toString());
-					if (date_article.before(date_fin)){
-						if(date_article.after(date_debut)){
+					if (date_article.before(df)){
+						if(date_article.after(dd)){
 							//Starting processings for object instanciation
 							// link
 							String link = "http://www.lemonde.fr"+article.select("a").get(0).attr("href");
@@ -117,8 +116,8 @@ public class Search {
 		return result;
 	}
 
-	private static void topicsearch(String topic) throws IOException, ParseException {
-		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic);
+	private static void topicsearch(String topic,Date dd,Date df) throws IOException, ParseException {
+		ArrayList<LeMondeArticle> articles = getUrlFromTopic(topic,dd,df);
 		CSVManager<LeMondeArticle> csvManager = new CSVManager<>();
 		csvManager.writeToCSV(articles,topic+".csv");
 		System.out.println(topic+" :fini");
@@ -126,7 +125,16 @@ public class Search {
 	}
 
 	public static void main(String[] args) throws IOException, ParseException {
-		topicsearch("international");
-		topicsearch("sport");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
+		Date date_debut = dateFormat.parse("2016-01-01T00:00:00");
+		Date date_fin = dateFormat.parse("2017-01-01T00:00:00");
+
+		BufferedReader br = new BufferedReader(new FileReader("thememonde.txt"));
+		String line = br.readLine();
+		String[] themes = line.split(";");
+		br.close();  
+		for (String t : themes){
+			topicsearch(t,date_debut,date_fin);
+		};
 	}
 }
