@@ -125,9 +125,17 @@ public class Search {
 
 	public static void main(String[] args) throws IOException, ParseException {
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
-		Date date_debut = dateFormat.parse("2017-03-01T00:00:00");
-		Date date_fin = dateFormat.parse("2017-03-03T00:00:00");
+		Date date_debut = dateFormat.parse("2016-01-01T00:00:00");
+		Date date_fin = dateFormat.parse("2017-01-01T00:00:00");
 		topicsearch("international",date_debut,date_fin);
 		topicsearch("sport",date_debut,date_fin);
+		topicsearch("politique",date_debut,date_fin);
+		topicsearch("societe",date_debut,date_fin);
+		topicsearch("economie",date_debut,date_fin);
+		topicsearch("culture",date_debut,date_fin);
+		topicsearch("idees",date_debut,date_fin);
+		topicsearch("planete",date_debut,date_fin);
+		topicsearch("sciences",date_debut,date_fin);
+		topicsearch("campus",date_debut,date_fin);
 	}
 }
