@@ -111,8 +111,15 @@ function createNetwork(articleFilter) {
     let network = new vis.Network(container, d, options);
 
     container.className = lolzActive ? "lolz" : "";
+    $("#infos").show();
+    $("#infos #noArticle").text(articleFilter);
+    $("#infos #nbNodes").text(nodesArray.length);
+    $("#infos #nbEdges").text(edgesArray.length);
 
 }
+
+
+
 
 let onFileChanged = function (files) {
     loadData(files[0], actualizeSelect);

@@ -73,7 +73,14 @@
             <button id="load-button" class="btn btn-primary" type="submit" onclick="loadButtonAction()">Load</button>
             <br>
             <div class="checkbox">
-                <label><input type="checkbox"  checked value="" onchange="lolzOnCHanged(this.checked)">lolz</label>
+                <label><input type="checkbox" checked value="" onchange="lolzOnCHanged(this.checked)">lolz</label>
+            </div>
+            <hr>
+            <div id="infos" style="display:none">
+                <h2>Infos :</h2>
+                <p>Article : <span id="noArticle"></span> </p>
+                <p>Nombre de noeuds : <span id="nbNodes"></span> </p>
+                <p>Nombres d'arêtes : <span id="nbEdges"></span> </p>
             </div>
         </div>
         <div class="col-md-6">
@@ -91,8 +98,6 @@
 
     </div>
 
-
-    <p>...</p>
 
 </div><!-- /.container -->
 
