@@ -27,6 +27,8 @@ public class LeMondeArticle implements CSVConvertible {
         this.link = link;
         this.topic = topic;
 
+    }   
+    public LeMondeArticle() {
     }
 
     @Override

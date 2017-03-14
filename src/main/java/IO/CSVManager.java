@@ -116,7 +116,7 @@ public class CSVManager<T extends CSVConvertible> {
                         // process the line.
                         String[] fields = line.split(";");
                         for (String field : fields) {
-                            System.out.println(field);
+//                            System.out.println(field);
                         }
                         result.add((T) exampleClass.getObjectFromField(fields));
                     }
