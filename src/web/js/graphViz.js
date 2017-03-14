@@ -1,4 +1,4 @@
-let defaultConfig = {
+let config = {
     delimiter: "",	// auto-detect
     newline: "",	// auto-detect
     quoteChar: '"',
@@ -33,7 +33,7 @@ let data = [];
 function loadData(f,callback){
 
 
-    let myConfig = defaultConfig;
+    let myConfig = config;
 
     myConfig.complete =  function(results, file) {
         console.log("Parsing complete:", results, file);
@@ -87,10 +87,11 @@ function createNetwork(articleFilter){
         layout: {
             hierarchical: {
                 direction: "UD",
-                sortMethod: "directed"
+                sortMethod: "directed",
+                nodeSpacing : 30
             }
         },
-        interaction: {dragNodes :false},
+        interaction: {dragNodes :true},
         physics: {
             enabled: false
         },
