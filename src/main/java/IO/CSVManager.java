@@ -114,11 +114,15 @@ public class CSVManager<T extends CSVConvertible> {
 
 
                         // process the line.
+                    	int normalLength = exampleClass.getCSVHeaders().length;
                         String[] fields = line.split(";");
-                        for (String field : fields) {
-//                            System.out.println(field);
+                        if(fields.length==normalLength){
+                        	for (String field : fields) {
+//                              System.out.println(field);
+                          }
+                          result.add((T) exampleClass.getObjectFromField(fields));
                         }
-                        result.add((T) exampleClass.getObjectFromField(fields));
+                        
                     }
 
                 }
