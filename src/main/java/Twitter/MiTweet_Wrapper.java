@@ -26,7 +26,7 @@ public class MiTweet_Wrapper implements CSVConvertible {
     public String toString() {
         return "Twitter.Tweet{" +
                 "username='" + Tweet.getUsername() + '\'' +
-                ", timeStamp=" + Tweet.getTimeStamptoS() +
+                ", timeStamp=" + Long.toString(Tweet.getTimeStamptoS())+
                 ", from=" + Tweet.getOriginal_Tweet().getUsername() +
                 ", Id_Article=" + Id_Article +             
                 '}';
@@ -58,8 +58,8 @@ public class MiTweet_Wrapper implements CSVConvertible {
     public String[] getFields(){
         return new String[]{
                Tweet.getUsername(),
-                Tweet.getTimeStamptoS().toString(),
-                Tweet.getOriginal_Tweet().getUser(),
+                Long.toString(Tweet.getTimeStamptoS()),
+                Tweet.getOriginal_Tweet().getUsername(),
                 Id_Article
         };
     }
