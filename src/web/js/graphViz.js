@@ -119,8 +119,6 @@ function createNetwork(articleFilter) {
 }
 
 
-
-
 let onFileChanged = function (files) {
     loadData(files[0], actualizeSelect);
 
@@ -141,13 +139,46 @@ let loadButtonAction = function () {
 
     if (filter.length != 0 && data.length != 0) {
         createNetwork(filter);
+        promptGraph(filter);
     }
 
 }
 
-let lolzOnCHanged = function (value) {
-    console.log(value)
-    let container = document.getElementById('network');
-    lolzActive = value;
-};
 
+let promptGraph = function (articleFilter) {
+
+
+    $("#visualization").empty();
+    var container = document.getElementById('visualization');
+
+    let sortedData = data.filter(v=>v[articleIDField] == articleFilter)
+        .map((d)=>d.timeStamp)
+        .sort((a, b)=>a - b);
+
+
+    var items = [];
+    var count = 0;
+    sortedData.forEach((r)=> {
+        var date = new Date(r * 1000);
+
+        var month = date.getMonth();
+        var year = date.getYear() + 1900;
+        var day = date.getDay();
+        var str_date = year + "-" + month + "-" + day;
+        var existingCoord = items.find((i)=>i.x == str_date);
+        if (!existingCoord) {
+            items.push({x: year + "-" + month + "-" + day, y: 1});
+        }
+        else {
+            existingCoord.y ++;
+        }
+
+    });
+    console.log(items);
+    var dataset = new vis.DataSet(items);
+    var options = {
+        start: items[0].x,
+        end: items[items.length - 1].x
+    };
+    var graph2d = new vis.Graph2d(container, dataset, options);
+}

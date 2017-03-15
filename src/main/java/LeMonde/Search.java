@@ -7,7 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -25,16 +24,33 @@ import static Twitter.TwitterSearch.readAll;
  */
 public class Search {
 
+
+
+	public static String getHTMLFromURL(String url) throws IOException {
+		//opening connexion
+		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+		//setting requests property
+		connection.setRequestProperty("Accept-Charset", "utf-8");
+		connection.setRequestProperty("User-Agent",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		connection.setRequestProperty("x-overlay-request", "true");
+		connection.setRequestMethod("GET");
+
+		InputStreamReader ISR = new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8"));
+		BufferedReader rd = new BufferedReader(ISR);
+		return readAll(rd);
+	}
+
 	/**
 	 *
 	 * @param topic the topic ( ex : international )
 	 * @return a list of articles URL ( String )
-	 * @throws IOException in case of network problem
 	 * @throws ParseException 
 	 */
-	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,Date dd,Date df) throws IOException, ParseException {
+	public static ArrayList<LeMondeArticle> getUrlFromTopic(String topic,Date dd,Date df) throws ParseException {
 		//Constants
-		final int errorDelay = 6; //5 sec error delay
+		final int errorDelay = 5000; //5 sec error delay
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");
 		//initializing
 		int articleCount = 0;
@@ -45,20 +61,21 @@ public class Search {
 		while(ilenreste){
 			System.out.println(pageIndex);
 			String pageUrl = "http://www.lemonde.fr/"+topic+"/"+pageIndex+".html";
-			//opening connexion
-			HttpURLConnection connection = (HttpURLConnection) new URL(pageUrl).openConnection();
-			//setting requests property
-			connection.setRequestProperty("Accept-Charset", "utf-8");
-			connection.setRequestProperty("User-Agent",
-					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			connection.setRequestProperty("x-overlay-request", "true");
-			connection.setRequestMethod("GET");
+			boolean fini = false;
+			String text  = "";
+			while(!fini)
+			try {
+				text = getHTMLFromURL(pageUrl);
+				fini = true;
+			} catch (IOException e) {
+				System.out.println("Erreur, on attend !");
+				try {
+					Thread.sleep(errorDelay);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
 
-			InputStreamReader ISR = new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8"));
-			BufferedReader rd = new BufferedReader(ISR);
-
-			String text = readAll(rd);
 			Document doc = Jsoup.parse(text);
 			Elements articles = doc.select("article");
 			a_parcourir = true;
@@ -129,12 +146,16 @@ public class Search {
 		Date date_debut = dateFormat.parse("2016-01-01T00:00:00");
 		Date date_fin = dateFormat.parse("2017-01-01T00:00:00");
 
-		BufferedReader br = new BufferedReader(new FileReader("thememonde.txt"));
+		/*BufferedReader br = new BufferedReader(new FileReader("thememonde.txt"));
 		String line = br.readLine();
 		String[] themes = line.split(";");
-		br.close();  
+		br.close();
 		for (String t : themes){
 			topicsearch(t,date_debut,date_fin);
-		};
+		};*/
+		if(args.length!=1) throw new Error("ERROR, MISSING ARG");
+
+		topicsearch(args[0],date_debut,date_fin);
+
 	}
 }
