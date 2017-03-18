@@ -110,7 +110,7 @@ public class LeMondeArticle implements CSVConvertible {
     
     public long ecart_jour_tweet(MiTweet_Wrapper mi) throws ParseException {
     	SimpleDateFormat or = new SimpleDateFormat("yyyy-M-dd'T'hh:mm:ss");  
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd");
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-dd");
     	Date jour_art = dateFormat.parse(or.format(this.getDate()));
     	System.out.println(dateFormat.format(jour_art));
     	Date jour_twee = dateFormat.parse(or.format(mi.getTime_stamp()));
