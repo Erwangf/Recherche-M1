@@ -124,9 +124,9 @@ public class TwitterSearch {
 
                 String id = e.attr("data-item-id");
                 // user :
-                String user = e.select(".fullname.js-action-profile-name.show-popup-with-id").text();
+                String user = e.select(".fullname.show-popup-with-id").text();
                 // username :
-                String username = e.select("span.username.js-action-profile-name").first().text();
+                String username = e.select("span.username").first().text();
                 // timestamp, in Unix time (see : https://en.wikipedia.org/wiki/Unix_time )
                 String timeStamp_string = e.select("._timestamp").first().attr("data-time");
                 Timestamp timestamp = new Timestamp(Long.parseLong(timeStamp_string));
@@ -170,22 +170,8 @@ public class TwitterSearch {
         return myList;
     }
     
-    /**
-    *
-    * @param ArrayList<Tweet>
-    * @param String idArticle
-    * @return void, write datas in a CSV
-    * @throws nothing
-    */
-    private static void WrapAll(ArrayList<Tweet> myList,String idArticle,String path) {
-		// TODO Auto-generated method stub
-        ArrayList<MiTweet_Wrapper> mites = new ArrayList<>();
-        for(Tweet t : myList){
-        	mites.add(new MiTweet_Wrapper(t,idArticle));
-        }
-        CSVManager<MiTweet_Wrapper> csvManager = new CSVManager<>();
-        csvManager.writeToCSV(mites,path+".csv");
-	}
+
+
 
 	public static void getTweetsFromTwitter(int nMax, String q) throws IOException, JSONException {
         getTweetsFromTwitter(nMax, q, false);
@@ -212,15 +198,15 @@ public class TwitterSearch {
         System.out.println("Query = " + q);
         System.out.println("Maximum tweets = " + nMax);
 
-//        ArrayList<Tweet> myList = getTweetsFromTwitter(nMax, q, getRetweets);
-//
-//        System.out.println("Found " + myList.size() + " tweets.");
-//        System.out.println("Saving into " + path + "...");
-//        // when it's done, we write the list of tweets in a CSV file
-//        CSVManager<Tweet> csvManager = new CSVManager<Tweet>();
-//        csvManager.writeToCSV(myList, path);
-//        System.out.println("Done. !");
-//        System.out.println("==============================================");
+        ArrayList<Tweet> myList = getTweetsFromTwitter(nMax, q, getRetweets);
+
+        System.out.println("Found " + myList.size() + " tweets.");
+        System.out.println("Saving into " + path + "...");
+        // when it's done, we write the list of tweets in a CSV file
+        CSVManager<Tweet> csvManager = new CSVManager<Tweet>();
+        csvManager.writeToCSV(myList, path);
+        System.out.println("Done. !");
+        System.out.println("==============================================");
 
     }
 
